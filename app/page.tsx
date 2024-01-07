@@ -8,7 +8,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24" style={{
-      backgroundImage: `url('/images/yapstone1.png')`,
+      backgroundImage: `url('/images/yapstone-logo.png')`,
       backgroundSize: 'cover', // Keeps the background image as large as possible
       backgroundPosition: 'center', // Centers the background image
       backgroundAttachment: 'fixed', // This will make the background image fixed during scroll
