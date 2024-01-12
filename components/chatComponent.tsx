@@ -6,7 +6,7 @@ export default function ChatComponent() {
     const { input, handleInputChange, handleSubmit, isLoading, messages } = useChat();
 
     const chatBoxStyle: React.CSSProperties = { 
-        backgroundImage: '',
+        backgroundImage: 'url(public/yapstone-gold.png)',
         backgroundSize: '100%',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
@@ -15,7 +15,7 @@ export default function ChatComponent() {
         boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
         color: 'black',
         border: '1px solid black',
-        minHeight: '400px',
+        minHeight: '600px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -23,50 +23,49 @@ export default function ChatComponent() {
         padding: '2px',
     };
 
-    // Function to process and render message with bold text
+    // Function to process and render message with markdown-like formatting
     const renderMessageContent = (content: string) => {
         const parts = content.split(/(\*.*?\*)/g); // Splitting by asterisks
         return parts.map((part, index) => {
-            // Check if the part is wrapped in asterisks
             if (part.startsWith("*") && part.endsWith("*")) {
-                return <strong key={index}>{part.slice(1, -1)}</strong>; // Remove asterisks and render bold
+                return <strong key={index}>{part.slice(1, -1)}</strong>; //Bold
             } else {
-                return part; // Render normal text
+                return part; // Normal text
             }
         });
     };
 
     return (
         <div style={chatBoxStyle}>
-            <div style={{ position: 'relative' }}>
-                {messages.map((message: Message) => (
-                    <div key={message.id}>
-                        <h3 className="text-xl font-semibold mt-2">
-                            {message.role === "assistant" ? "Yapstone Concierge" : "Yapstone Guest"}
-                        </h3>
-
-                        {message.content.split("\n").map((currentTextBlock, index) => (
-                            currentTextBlock === ""
-                                ? <p key={message.id + index}>&nbsp;</p>
-                                : <p key={message.id + index}>{renderMessageContent(currentTextBlock)}</p>
-                        ))}
+            <div style={{ overflowY: 'auto', maxHeight: '80%', padding: '10px' }}>
+                {messages.map((message: Message, idx) => (
+                    <div key={idx} style={{ marginBottom: '10px' }}>
+                        <div style={{ fontWeight: 'bold', marginBottom: '5px' }}>
+                            {message.role === "assistant" ? "Yapstone Expert AI" : "Yapstone User"}
+                        </div>
+                        <div>
+                            {message.content.split("\n").map((textBlock, index) => (
+                                textBlock === ""
+                                    ? <br key={index} />
+                                    : <p key={index} style={{ margin: '0' }}>{renderMessageContent(textBlock)}</p>
+                            ))}
+                        </div>
                     </div>
                 ))}
             </div>
 
-            <form className="mt-12" onSubmit={handleSubmit}>
-                <p>User Message</p>
+            <form onSubmit={handleSubmit} style={{ borderTop: '1px solid black', paddingTop: '10px' }}>
                 <textarea
-                    className="mt-2 w-full"
-                    placeholder={"Good Morning Yapstone User."}
-                    style={{ border: '1px solid black', backgroundColor: 'transparent', padding: '0', fontSize: '1rem' }}
+                    placeholder={'Welcome to Yapstone! How Can I Help You?'}
+                    style={{ width: '100%', minHeight: '50px', marginBottom: '10px', border: '1px solid black', backgroundColor: 'transparent', padding: '5px', fontSize: '1rem' }}
                     value={input}
                     onChange={handleInputChange}
+                    disabled={isLoading}
                 />
                 <button
-                    className="rounded-md mt-2"
-                    style={{ border: '1px solid black', backgroundColor: 'transparent', padding: '0', fontSize: '1rem' }}>
-                    Send message
+                    type="submit"
+                    style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid black', padding: '5px', fontSize: '1rem' }}>
+                    {isLoading ? 'Sending...' : 'Send Message'}
                 </button>
             </form>
         </div>
