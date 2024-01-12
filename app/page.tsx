@@ -15,7 +15,7 @@ export default function Home() {
       backgroundRepeat: 'no-repeat' // Prevents the background image from repeating
     }}>
       <div className="bg-white-800 p-3 w-[1500px] rounded-md text-black">
-        <h2 className="text-2xl">REALMS</h2>
+        <h2 className="text-1xl">REALMS</h2>
         <ChatComponent />
       </div>
     </main>
